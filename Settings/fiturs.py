@@ -141,3 +141,57 @@ def edit_tugas(username):
             return
     except ValueError:
         print("Masukkan angka yang valid!\n")
+
+
+def notifikasi(username):
+    data = load_data
+    tugas = data['tugas'].get(username, [])
+    undone = [t for t in tugas if not t['selesai']]
+    print(f"Anda memiliki {len(undone)} tugas yang belum dikerjakan!")
+
+
+def statistik(username):
+    data = load_data
+    tugas = data['tugas'].get(username, [])
+    print("=== STATISTIK TUGAS ===")
+
+    if not tugas:
+        print("Belum ada data untuk ditampilkan statistiknya.\n")
+        return
+    
+    total = len(tugas)
+    done = len(t for t in tugas if t['selesai'])
+    undone = total - done
+
+    diff_count = {
+        'mudah': 0,
+        'sedang': 0,
+        'susah': 0
+    }
+    for t in tugas:
+        level = t['tingkat'].lower()
+        if level in diff_count:
+            diff_count += 1
+
+    persen_done = (done / total) * 100
+    persen_undone = 100 - persen_done
+
+    print(f"Username: {username}")
+    print(f"Total: {total}")
+    print(f"Tugas selesai: {done} ({persen_done:.0f}%)")
+    print(f"Tugas belum selesai: {undone} ({persen_undone:.0f}%)")
+    print("Berdasarkan tingkat kesulitan: ")
+    # print(f"- Mudah: {diff_count['mudah']}")
+    # print(f"- Sedang: {diff_count['sedang']}")
+    # print(f"- Susah: {diff_count['susah']}")
+    for level, count in diff_count.items():
+        print(f"- {level.capitalize():<7}: {count}")
+
+    try:
+        upcoming = sorted(
+            [t for t in tugas if not t['selesai']], key=lambda x: datetime.strptime(x['deadline'], "%Y-%m-$d")
+        )
+        if upcoming:
+            print(f"Deadline terdekat: {upcoming[0]['judul']} ({upcoming[0]['deadline']})")
+    except Exception:
+        pass
