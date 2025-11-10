@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 akun_list = []
 
@@ -21,6 +22,7 @@ def register(anu):
 
 # "database" untuk menyimpan task
 database_task = []
+data_user = {}
 
 def buat_task_baru():
     print("=== Buat Task Baru ===")
@@ -75,3 +77,59 @@ def buat_task_baru():
 
 # Contoh jalankan program
 # buat_task_baru()
+
+database_task = []
+data_user = {}
+def edit_tasks(username):
+    print("=== EDIT/UPDATE TASKS ===")
+    if not data_user:
+                print(f"User {username} tidak ditemukan.\n")
+                return
+    tugas = database_task
+
+    if not tugas:
+                print("Tidak ada tugas untuk diedit atau update.\n")
+                return
+    
+    for i, t in enumerate(tugas, start=1):
+                status = "Selesai" if t["selesai"] else "Belum selesai"
+                print(f"{i}. {t['judul']} ({t['tingkat']}) - Deadline: {t['deadline']} - {status}")
+    try:
+        pilihan = int(input("\nMasukkan nomor tugas yang ingin diedit atau update: ")) - 1
+        if 0 <= pilihan < len(tugas):
+            t = tugas[pilihan]
+            print(f"\nMengedit tugas '{t['judul']}'...\n")
+
+            judul_baru = input("Judul baru: ").strip() or t["judul"]
+            desk_baru = input("Deskripsi baru: ").strip() or t["deskripsi"]
+            tingkat_baru = input("Tingkat baru: ").strip() or t["tingkat"]
+            deadline_baru = input("Deadline baru (YYYY-MM-DD): ").strip() or t["deadline"]
+
+            # Validasi format tanggal
+            try:
+                datetime.strptime(deadline_baru, "%Y-%m-%d")
+            except ValueError:
+                print("⚠ Format tanggal tidak valid, perubahan dibatalkan.\n")
+                return
+
+            status_baru = input("Apakah tugas anda telah dikerjakan? (y/n, kosong = tidak diubah): ").lower().strip()
+            if status_baru == 'y':
+                selesai_baru = True
+            elif status_baru == 'n':
+                selesai_baru = False
+            else:
+                selesai_baru = t['selesai']
+
+            tugas[pilihan] = {
+                'judul': judul_baru,
+                'deskripsi': desk_baru,
+                'tingkat': tingkat_baru,
+                'deadline': deadline_baru,
+                'selesai': selesai_baru
+            }
+
+            print(f"Tugas '{judul_baru}' berhasil diperbarui.\n")
+        else:
+            print("Nomor tugas tidak valid atau tidak ditemukan!\n")
+    except ValueError:
+        print("Masukkan angka yang valid!\n")
