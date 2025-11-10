@@ -1,4 +1,5 @@
 import const
+from models.user import User
 
 WIDTH = 60
 INNER = WIDTH - 6
@@ -31,13 +32,14 @@ def create_account_prompt():
     print("Input your Username & Password")
     username = input("New Username: ")
     password = input("New Password: ")
-    return username,password
+    user = User(username, password)
+    return user
 
 def log_account_prompt():
     print("Input your Login Username & Password")
     username = input("Username: ")
     password = input("Password: ")
-    return username,password
+    return username, password
 
 def line():
     print(const.H_SEPARATOR * WIDTH)

@@ -1,7 +1,7 @@
 import os
 import sys
 import utility
-from controllers.user_controller import create_user
+from controllers.user_controller import register,login 
 
 if __name__ == "__main__":
     o = os.name
@@ -14,10 +14,11 @@ while True:
     os.system("cls")
     match chooseMenuAcc:
         case "1":
-            username,password = utility.create_account_prompt()
-            create_user(username,password)
+            user = utility.create_account_prompt()
+            register(user)
         case "2":
-            utility.log_account_prompt()
+            username,password = utility.log_account_prompt()
+            login(username,password)
             break
         case "3": 
             utility.exit_prompt()
@@ -25,3 +26,4 @@ while True:
         case _:
             print("Invalid")
             continue
+  
