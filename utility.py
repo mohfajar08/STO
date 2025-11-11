@@ -1,5 +1,6 @@
 import const
 from models.user import User
+from controllers.user_controller import statistik_akun
 
 WIDTH = 60
 INNER = WIDTH - 6
@@ -57,3 +58,18 @@ def line():
 def space(n=1):
     for _ in range(max(1, n)):
         print()
+
+
+def main_menu(username):
+   while True:
+        line()
+        center(f"Welcome, {username}")
+        line()
+        print('''1. Lihat Statistik Akun''')
+        pilihan = input("Pilih menu: ")
+        line()
+
+        if pilihan == "1":
+            statistik_akun(username)
+        else:
+            print("Pilihan tidak valid!")

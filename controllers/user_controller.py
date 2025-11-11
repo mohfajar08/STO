@@ -20,6 +20,53 @@ def register(anu):
     print(akun_list)
     
 
+# Fungsi statistik akun (punya kamu)
+def statistik_akun(username):
+    print("=== STATISTIK AKUN ===")
+
+    if not database_task:
+        print("Belum ada tugas yang terdaftar.\n")
+        return
+
+    total = len(database_task)
+    selesai = sum(1 for t in database_task if t.get("selesai"))
+    belum = total - selesai
+    persen_selesai = (selesai / total * 100) if total else 0
+    persen_belum = (belum / total * 100) if total else 0
+
+    mudah = sum(1 for t in database_task if t["tingkat"].lower() == "mudah")
+    sedang = sum(1 for t in database_task if t["tingkat"].lower() == "sedang")
+    sulit = sum(1 for t in database_task if t["tingkat"].lower() == "sulit")
+
+    tugas_belum = [t for t in database_task if not t.get("selesai")]
+    if tugas_belum:
+        try:
+            tugas_belum.sort(
+                key=lambda x: datetime.strptime(x["deadline"], "%Y-%m-%d")
+            )
+            terdekat = tugas_belum[0]
+            judul_terdekat = terdekat["judul"]
+            deadline_terdekat = terdekat["deadline"]
+        except Exception:
+            judul_terdekat = "-"
+            deadline_terdekat = "-"
+    else:
+        judul_terdekat = "-"
+        deadline_terdekat = "-"
+
+    print(f"Username: {username}")
+    print(f"Total tugas: {total}")
+    print(f"Selesai: {selesai} ({persen_selesai:.2f}%)")
+    print(f"Belum selesai: {belum} ({persen_belum:.2f}%)\n")
+
+    print("Berdasarkan tingkat kesulitan:")
+    print(f"- Mudah: {mudah}")
+    print(f"- Sedang: {sedang}")
+    print(f"- Sulit: {sulit}")
+
+    print(f"\nDeadline terdekat: \"{judul_terdekat}\" (\"{deadline_terdekat}\")\n")
+
+
 # "database" untuk menyimpan task
 database_task = []
 data_user = {}
@@ -32,7 +79,7 @@ def buat_task_baru():
         id = input("Masukkan ID (huruf/angka saja): ")
         if re.fullmatch(r"[A-Za-z0-9]+", id):
             break
-        else:
+        else: 
             print("❌ ID hanya boleh berisi huruf dan angka!")
 
     # Judul bebas tapi tidak boleh kosong
@@ -79,7 +126,7 @@ def buat_task_baru():
 # buat_task_baru()
 
 database_task = []
-data_user = {}
+data_user = {}  
 def edit_tasks(username):
     print("=== EDIT/UPDATE TASKS ===")
     if not data_user:

@@ -17,9 +17,13 @@ while True:
             user = utility.create_account_prompt()
             register(user)
         case "2":
-            username,password = utility.log_account_prompt()
-            login(username,password)
-            break
+            username, password = utility.log_account_prompt()
+            akun = login(username, password)
+            if akun:  # kalau login berhasil
+                os.system("cls")
+                utility.main_menu(username)
+            else:
+                input("Tekan Enter untuk mencoba lagi...")
         case "3": 
             utility.exit_prompt()
             sys.exit(0)
