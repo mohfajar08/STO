@@ -4,9 +4,23 @@ from models.user import User
 WIDTH = 60
 INNER = WIDTH - 6
 
-def greeting_prompt():
+def view_menu():
     line()
-    center("WELCOME !!!")
+    print("View Menu")
+    line()
+    print('''1. Lihat Statistik Akun
+2. Melihat daftar tugas (view)
+3. Mencari task berdasarkan Judul
+4. Melihat daftar task yang dihapus
+5. Logout / ganti akun
+''')
+    viewMenu = input("Choose menu (1-5): ")
+    line()
+    return viewMenu
+
+def greeting_prompt(title):
+    line()
+    center(title)
     line()
     center("Smart Task Organizer")
     line()
@@ -24,7 +38,7 @@ def account_menu():
     print('''1. Register
 2. Login
 3. Exit''')
-    accountMenu = input("Choose menu: ")
+    accountMenu = input("Choose menu (1-3): ")
     line()
     return accountMenu
 
@@ -36,10 +50,11 @@ def create_account_prompt():
     return user
 
 def log_account_prompt():
-    print("Input your Login Username & Password")
-    username = input("Username: ")
-    password = input("Password: ")
-    return username, password
+    while True:
+        print("Input your Login Username & Password")
+        username = input("Username: ")
+        password = input("Password: ")
+        return username, password
 
 def line():
     print(const.H_SEPARATOR * WIDTH)
