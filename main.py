@@ -1,7 +1,7 @@
 import os
 import sys
 import utility
-from controllers.user_controller import register,login 
+from controllers.user_controller import register,login,show_notification
 
 if __name__ == "__main__":
     o = os.name
@@ -19,7 +19,8 @@ while True:
         case "2":
             username,password = utility.log_account_prompt()
             login(username,password)
-            break
+            show_notification()
+            break     
         case "3": 
             utility.exit_prompt()
             sys.exit(0)

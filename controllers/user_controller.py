@@ -1,6 +1,5 @@
 import re
 from datetime import datetime
-
 akun_list = []
 
 def login(username, password):
@@ -77,8 +76,6 @@ def buat_task_baru():
 
 # Contoh jalankan program
 # buat_task_baru()
-
-database_task = []
 data_user = {}
 def edit_tasks(username):
     print("=== EDIT/UPDATE TASKS ===")
@@ -133,3 +130,9 @@ def edit_tasks(username):
             print("Nomor tugas tidak valid atau tidak ditemukan!\n")
     except ValueError:
         print("Masukkan angka yang valid!\n")
+
+def show_notification():
+    if len(database_task) <= 1 :
+        print(f"Anda memiliki {len(database_task)} tugas")
+    else:
+        print("Anda tidak memiliki tugas")

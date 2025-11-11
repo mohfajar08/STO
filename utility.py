@@ -57,3 +57,4 @@ def line():
 def space(n=1):
     for _ in range(max(1, n)):
         print()
+
